@@ -5,7 +5,7 @@ pipelineJob('html-generator') {
             description = 'Identifies who generated the latest HTML.'
         )
     }
-    ...
+    
     definition {
         cpsScm {
             scm {

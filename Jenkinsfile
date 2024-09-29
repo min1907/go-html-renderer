@@ -1,21 +1,15 @@
 pipeline {
     agent any
-    tools { go 'go-1.19' }
-    ...
-}
 
+    tools {
+        go 'go-1.19'
+    }
 
-pipeline {
-    ...
     environment {
         COMMIT = "${env.GIT_COMMIT}"
         BRANCH = "${env.GIT_BRANCH}"
     }
-    ...
-}
 
-pipeline {
-    ...
     stages {
         stage('Build') {
             steps {
@@ -28,52 +22,36 @@ pipeline {
                 }
             }
         }
-        ...
-    }
-}
 
-pipeline {
-    ...
-    stages {
-        ...
         stage('Test') {
             steps {
-                dir('src') { sh 'go fmt *.go' }
+                dir('src') {
+                    sh 'go fmt *.go'
+                }
             }
         }
-        ...
-    }
-}
 
-pipeline {
-    ...
-    stages {
-        ...
         stage('Generate HTML') {
             steps {
-                dir('src') { sh './generator' }
+                dir('src') {
+                    sh './generator'
+                }
             }
         }
-        ...
     }
-}
 
-pipeline {
-    ...
-    stages {
-        ...
-    }
     post {
         success {
             publishHTML([
                 reportDir: 'src',
                 reportFiles: 'index.html',
                 reportName: 'Dynamic HTML generator',
-                allowMissing: false, // Default value
-                alwaysLinkToLastBuild: false, // Default value
-                keepAll: false, // Default value
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: false,
             ])
         }
     }
 }
+
 
